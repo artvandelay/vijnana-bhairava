@@ -4,5 +4,6 @@
 *.pyc
 __pycache__/
 
-# Audio arrives after render — keep folder, ignore unfinished local noise
+# Public delivery uses compressed MP3; source WAVs stay in the render project.
+audio/*.wav
 audio/.DS_Store

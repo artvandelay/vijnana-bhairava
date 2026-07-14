@@ -1,58 +1,73 @@
-# Vijñāna Bhairava Tantra — reading assistant
+# Vijñāna Bhairava Tantra
 
-A small static site for studying the *Vijñāna Bhairava Tantra*: Devanagari,
-IAST, meaning, and (soon) chanted audio for each verse.
+An audio reading companion for the *Vijñāna Bhairava Tantra*. Move through the
+text one verse at a time with Devanagari, IAST, a concise study note, and a
+meter-aware Sanskrit chant.
 
-**This is a companion to the book**, not a substitute. Keep Jaideva Singh’s
-edition open while you listen.
+**[Open the reader →](https://artvandelay.github.io/vijnana-bhairava/)**
 
-Maintained by [artvandelay](https://github.com/artvandelay).
+This project is designed to sit beside a serious translation and commentary,
+not replace one.
 
-## Status
+## What is included
 
-- Reader UI: ready
-- Verse text (`verses.json`): ready
-- Audio (`audio/*.wav`): **pending** — import when the TTS render finishes
+- The complete numbered text: verses 1–163
+- The separately transmitted breath-mantra stanza, shown as 156-A
+- 164 locally hosted chant recordings
+- Devanagari and IAST text layers
+- Original plain-English study notes
+- Keyboard, touch, deep-link, and mobile support
+- A dependency-free static site suitable for GitHub Pages
+
+## Using the reader
+
+- `Space` toggles listening mode.
+- `←` and `→` move between verses. Playback continues when listening mode is on.
+- Swipe left or right on touch devices.
+- Select the verse counter, enter a number such as `24` or `156A`, and press
+  `Enter`.
+- Each verse has a stable URL fragment, for example `#vbt_024`.
 
 ## Local preview
 
 ```bash
-cd /path/to/vijnana-bhairava
 python3 -m http.server 8787
-# → http://127.0.0.1:8787/
 ```
 
-## Controls
+Then open <http://127.0.0.1:8787/>.
 
-| Key | Action |
-|-----|--------|
-| `Space` | Play / pause (owns listening mode) |
-| `→` `←` | Next / previous — keeps playing if Space armed listening |
-| Swipe | Same as arrows on mobile |
-| Verse number | Click, type, Enter to jump |
+## Project structure
 
-## When audio is ready
+```text
+index.html       Reader interface and application logic
+verses.json      Sanskrit, IAST, study notes, and audio paths
+study_notes.json Original English study notes keyed by audio ID
+audio/           Generated WAV recordings
+scripts/         Audio import and validation helpers
+```
 
-From this repo:
+To refresh audio from a completed render:
 
 ```bash
-bash scripts/import_audio.sh
+bash scripts/import_audio.sh /path/to/rendered/wavs
+bash scripts/compress_audio.sh
 ```
 
-That copies finished WAVs from the local render folder into `audio/` and is
-safe to re-run (rsync). Then commit `audio/*.wav` for GitHub Pages.
+## Text, notes, and audio
 
-## GitHub Pages
+The Sanskrit is a classical text in the public domain. The English layer
+contains short, independently written orientation notes rather than a
+published translation. For close study, consult a critical translation and
+commentary.
 
-Settings → Pages → Deploy from branch → `/ (root)`.
+The chant recordings were generated with
+[Vāgdhenu](https://github.com/prathoshap/vagdhenu), the Sanskrit chant TTS
+system by Prof. Prathosh A. P., IISc Bengaluru.
 
-## Acknowledgments
-
-See [NOTICE.md](./NOTICE.md).
+See [NOTICE.md](./NOTICE.md) for detailed provenance and limitations.
 
 ## License
 
-Site code (HTML/CSS/JS): [MIT](./LICENSE).
-
-Sanskrit text of the VBT is classical. Modern English wording in this reader is
-provided for study alongside the book — see NOTICE for sources and limits.
+The site code is released under the [MIT License](./LICENSE). That license does
+not claim ownership of the classical Sanskrit text or third-party software and
+models acknowledged in [NOTICE.md](./NOTICE.md).

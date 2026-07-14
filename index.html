@@ -7,19 +7,88 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Vijñāna Bhairava Tantra</title>
-  <meta name="description" content="A reading assistant for the Vijñāna Bhairava Tantra: hear each śloka chanted, with meaning beside the text." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+Devanagari:wght@400;500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <meta name="description" content="Hear all 163 verses of the Vijñāna Bhairava Tantra chanted, with Devanagari, IAST, and concise study notes." />
+  <meta property="og:title" content="Vijñāna Bhairava Tantra — audio reader" />
+  <meta property="og:description" content="A verse-by-verse Sanskrit chant companion with Devanagari, IAST, and concise study notes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://artvandelay.github.io/vijnana-bhairava/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://artvandelay.github.io/vijnana-bhairava/" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="./site.webmanifest" />
   <style>
+    @font-face {
+      font-family: "Gentium Plus";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/gentium-plus-regular-latin.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+        U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    @font-face {
+      font-family: "Gentium Plus";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/gentium-plus-regular-latin-ext.woff2") format("woff2");
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+        U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+        U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+        U+A720-A7FF;
+    }
+
+    @font-face {
+      font-family: "Gentium Plus";
+      font-style: italic;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/gentium-plus-italic-latin.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+        U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    @font-face {
+      font-family: "Gentium Plus";
+      font-style: italic;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/gentium-plus-italic-latin-ext.woff2") format("woff2");
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+        U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+        U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+        U+A720-A7FF;
+    }
+
+    @font-face {
+      font-family: "Noto Serif Devanagari";
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: swap;
+      src: url("./fonts/noto-serif-devanagari.woff2") format("woff2");
+      unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9,
+        U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+    }
+
     :root {
-      --bg: #000000;
-      --fg: #f5f5f5;
-      --muted: #8a8a8a;
+      --canvas: #2a2a2a;
+      --panel: rgba(0, 0, 0, 0.55);
+      --panel-solid: #0c0c0c;
+      --bg: var(--canvas);
+      --fg: #e8e2d6;
+      --muted: #8a8580;
       --dim: #3a3a3a;
-      --line: #222;
-      --focus: #e8e4d8;
-      --link: #cfc9bc;
+      --line: rgba(255, 255, 255, 0.08);
+      --focus: #e8e2d6;
+      --link: #d4cec2;
+      --serif: "Gentium Plus", "Gentium", "Times New Roman", Times, serif;
+      --text: #e6e0d4;
+      --text-soft: rgba(230, 224, 212, 0.72);
+      --ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Helvetica, Arial, sans-serif;
+      --radius: 16px;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-right: env(safe-area-inset-right, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -38,9 +107,21 @@
       margin: 0;
       background: var(--bg);
       color: var(--fg);
-      font-family: "Outfit", system-ui, sans-serif;
+      font-family: var(--ui);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+    }
+
+    .serif-copy {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-weight: 400;
+      font-synthesis: none;
+      -webkit-font-smoothing: auto;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+      letter-spacing: 0.005em;
     }
 
     body {
@@ -65,8 +146,7 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 90% 70% at 50% 35%, rgba(28, 26, 22, 0.55) 0%, transparent 65%),
-        linear-gradient(180deg, #050505 0%, #000 40%, #000 100%);
+        radial-gradient(ellipse 80% 60% at 50% 30%, #333 0%, var(--canvas) 70%);
       z-index: 0;
     }
 
@@ -84,7 +164,7 @@
       text-decoration-thickness: 1px;
     }
 
-    a:hover { color: #fff; }
+    a:hover { color: var(--text); }
 
     /* —— shared chrome —— */
     header {
@@ -93,7 +173,8 @@
       justify-content: space-between;
       gap: 0.75rem;
       padding: calc(0.85rem + var(--safe-top)) calc(1.25rem + var(--safe-right)) 0.85rem calc(1.25rem + var(--safe-left));
-      border-bottom: 1px solid var(--line);
+      border-bottom: 0;
+      background: transparent;
     }
 
     .brand {
@@ -119,18 +200,24 @@
     }
 
     .mark {
-      width: 1.55rem;
-      height: 1.55rem;
-      border-radius: 0.4rem;
-      border: 1px solid #2a2a2a;
-      background: #0c0c0c;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(230, 224, 212, 0.1);
+      background: rgba(0, 0, 0, 0.48);
       display: grid;
       place-items: center;
-      font-family: "Noto Serif Devanagari", serif;
-      font-size: 0.85rem;
-      color: #d4cfc3;
-      box-shadow: 0 0 18px rgba(180, 190, 220, 0.12);
-      transition: border-color 0.15s ease;
+      color: #d8d1c4;
+      box-shadow: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .mark svg {
+      width: 1rem;
+      height: 1rem;
+      display: block;
+      fill: currentColor;
+      shape-rendering: geometricPrecision;
     }
 
     .counter {
@@ -144,7 +231,7 @@
     }
 
     .counter-input {
-      width: 3rem;
+      width: 4rem;
       min-height: 44px;
       border: 0;
       border-bottom: 1px solid #444;
@@ -215,7 +302,12 @@
     }
 
     .home-card {
-      width: min(36rem, 100%);
+      width: min(44rem, calc(100% - 2rem));
+      background: var(--panel);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.35rem 1.75rem;
     }
 
     .home-kicker {
@@ -227,13 +319,15 @@
     }
 
     .home-title {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-weight: 500;
-      font-size: clamp(2.2rem, 5vw, 3.1rem);
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2rem, 7vw, 2.6rem);
       line-height: 1.15;
       letter-spacing: -0.01em;
       margin: 0 0 0.35rem;
-      color: #f2f0ea;
+      color: var(--text);
+      -webkit-font-smoothing: auto;
+      font-synthesis: none;
     }
 
     .home-deva {
@@ -244,21 +338,35 @@
     }
 
     .home-lead {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: clamp(1.15rem, 2.2vw, 1.35rem);
-      line-height: 1.65;
-      color: #d8d4cb;
-      margin: 0 0 1.1rem;
-      max-width: 30em;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.15rem;
+      line-height: 1.55;
+      color: var(--text);
+      margin: 0 0 1rem;
+      max-width: none;
+      -webkit-font-smoothing: auto;
+      font-synthesis: none;
+      letter-spacing: 0;
     }
 
     .home-body {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: 1.12rem;
-      line-height: 1.65;
-      color: #9a958c;
-      margin: 0 0 2rem;
-      max-width: 32em;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.08rem;
+      line-height: 1.55;
+      color: var(--text-soft);
+      margin: 0 0 1.5rem;
+      max-width: none;
+      -webkit-font-smoothing: auto;
+      font-synthesis: none;
+      letter-spacing: 0;
+    }
+
+    .home-body em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text);
     }
 
     .cta-row {
@@ -280,9 +388,12 @@
       border-radius: 999px;
       padding: 0.85rem 1.3rem;
       min-height: 48px;
-      font-family: inherit;
+      font-family: var(--ui);
       font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
@@ -293,8 +404,8 @@
 
     button.solid:hover,
     a.solid:hover {
-      background: #fff;
-      border-color: #fff;
+      background: #f4efe5;
+      border-color: var(--text);
       color: #000;
     }
 
@@ -304,15 +415,18 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #2c2c2c;
-      background: transparent;
-      color: #cfc9bc;
+      border: 0;
+      background: rgba(0, 0, 0, 0.45);
+      color: var(--text);
       border-radius: 999px;
       padding: 0.85rem 1.3rem;
       min-height: 48px;
-      font-family: inherit;
+      font-family: var(--ui);
       font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
@@ -324,17 +438,28 @@
     button.ghost:hover,
     a.ghost:hover {
       border-color: #555;
-      color: #fff;
+      color: var(--text);
       background: #111;
     }
 
     button.ghost:focus-visible,
     button.solid:focus-visible,
+    a.ghost:focus-visible,
+    a.solid:focus-visible,
     .counter-input:focus-visible,
     .brand:focus-visible,
     .nav-link:focus-visible {
-      outline: 1px solid #888;
-      outline-offset: 2px;
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    button.ghost:active,
+    button.solid:active,
+    a.ghost:active,
+    a.solid:active,
+    .brand:active,
+    .nav-link:active {
+      transform: translateY(1px);
     }
 
     .refs {
@@ -360,17 +485,23 @@
     }
 
     .refs li {
-      font-family: "Cormorant Garamond", Georgia, serif;
+      font-family: var(--serif);
+      font-weight: 400;
       font-size: 1.05rem;
       line-height: 1.45;
-      color: #bdb8ae;
+      color: var(--text);
+      -webkit-font-smoothing: auto;
+      font-synthesis: none;
+      letter-spacing: 0;
     }
 
     .refs .cite {
       display: block;
-      color: #7a756c;
+      color: var(--text-soft);
       font-size: 0.95rem;
-      margin-top: 0.15rem;
+      line-height: 1.45;
+      margin-top: 0.2rem;
+      -webkit-font-smoothing: auto;
     }
 
     /* —— reader —— */
@@ -384,13 +515,13 @@
 
     main.reader-main {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding:
-        clamp(1rem, 3.5vw, 2.5rem)
-        calc(1.1rem + var(--safe-right))
-        clamp(1rem, 3.5vw, 2.5rem)
-        calc(1.1rem + var(--safe-left));
+        0.75rem
+        calc(1rem + var(--safe-right))
+        1rem
+        calc(1rem + var(--safe-left));
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
@@ -398,8 +529,13 @@
     }
 
     .stage {
-      width: min(42rem, 100%);
-      margin: auto 0;
+      width: min(44rem, calc(100% - 2rem));
+      margin: 0 auto;
+      background: var(--panel);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.25rem 1.5rem;
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.28s ease, transform 0.28s ease;
@@ -410,9 +546,10 @@
       transform: translateY(8px);
     }
 
+
     .stage.is-playing .deva {
       color: var(--focus);
-      text-shadow: 0 0 40px rgba(232, 228, 216, 0.08);
+      text-shadow: 0 0 40px rgba(232, 228, 216, 0.06);
     }
 
     .meta {
@@ -420,48 +557,71 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.25rem;
     }
 
     .deva {
-      font-family: "Noto Serif Devanagari", "Noto Serif", serif;
-      font-size: clamp(1.35rem, 4.2vw, 2.15rem);
+      font-family: "Noto Serif Devanagari", var(--serif);
+      font-size: clamp(1.25rem, 4vw, 1.55rem);
       font-weight: 500;
-      line-height: 1.75;
-      color: #f2f0ea;
-      margin: 0 0 1.35rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin: 0;
+      padding-bottom: 1.15rem;
       transition: color 0.4s ease, text-shadow 0.4s ease;
-      overflow-wrap: anywhere;
-      word-break: break-word;
+      overflow-wrap: normal;
+      word-break: normal;
+      -webkit-font-smoothing: auto;
     }
 
     .deva p { margin: 0 0 0.35em; }
     .deva p:last-child { margin-bottom: 0; }
 
     .iast {
-      font-family: "Cormorant Garamond", Georgia, serif;
+      font-family: var(--serif);
       font-style: italic;
       font-weight: 400;
-      font-size: clamp(1.05rem, 3.2vw, 1.45rem);
+      font-size: clamp(1.12rem, 3.5vw, 1.28rem);
       line-height: 1.55;
-      color: #9a958c;
-      margin: 0 0 1.5rem;
-      overflow-wrap: anywhere;
+      color: var(--text);
+      margin: 0;
+      padding: 1.15rem 0 0;
+      border-top: 1px solid rgba(230, 224, 212, 0.14);
+      overflow-wrap: normal;
+      -webkit-font-smoothing: auto;
+      font-synthesis: none;
+      letter-spacing: 0;
     }
 
-    .iast p { margin: 0 0 0.2em; }
+    .iast:not([hidden]) {
+      padding-bottom: 1.15rem;
+    }
+
+    .iast p { margin: 0 0 0.25em; }
+    .iast p:last-child { margin-bottom: 0; }
 
     .english {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: clamp(1.02rem, 2.8vw, 1.25rem);
+      font-family: var(--serif);
+      font-size: clamp(1.08rem, 3.2vw, 1.2rem);
       font-weight: 400;
-      line-height: 1.65;
-      color: #d8d4cb;
+      line-height: 1.55;
+      color: var(--text);
       margin: 0;
-      max-width: 36em;
+      padding-top: 1.15rem;
+      border-top: 1px solid rgba(230, 224, 212, 0.14);
+      max-width: none;
+      -webkit-font-smoothing: auto;
+      font-synthesis: none;
+      letter-spacing: 0;
+    }
+
+    /* If IAST is hidden, English still gets a clean rule under Devanagari */
+    .iast[hidden] + .english {
+      border-top: 1px solid rgba(230, 224, 212, 0.14);
     }
 
     .status {
+
       margin-top: 1.75rem;
       font-size: 0.78rem;
       letter-spacing: 0.06em;
@@ -473,54 +633,78 @@
 
     footer.reader-footer {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.85rem;
+      gap: 0.75rem 1rem;
       padding:
         0.85rem
         calc(1.15rem + var(--safe-right))
-        calc(0.95rem + var(--safe-bottom))
+        calc(1rem + var(--safe-bottom))
         calc(1.15rem + var(--safe-left));
-      border-top: 1px solid var(--line);
+      border-top: 0;
       color: var(--muted);
       font-size: 0.75rem;
       letter-spacing: 0.04em;
+      background: transparent;
     }
 
     .keys {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.85rem 1.25rem;
+      align-items: center;
+      gap: 0.55rem 1rem;
+      min-width: 0;
     }
 
-    .keys span {
+    .key-hint {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.4rem;
+      white-space: nowrap;
+      color: #9a948a;
+      font-family: var(--ui);
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
     }
 
-    .keys-desktop { display: flex; }
-    .keys-mobile { display: none; }
+    .kbd-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .key-label {
+      color: #9a948a;
+    }
+
+    .key-hint-touch {
+      display: none;
+    }
 
     kbd {
-      display: inline-grid;
-      place-items: center;
-      min-width: 1.55rem;
-      height: 1.45rem;
-      padding: 0 0.4rem;
-      border: 1px solid #333;
-      border-radius: 0.3rem;
-      background: #111;
-      color: #cfc9bc;
-      font-family: "Outfit", sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.6rem;
+      height: 1.5rem;
+      padding: 0 0.45rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.35rem;
+      background: rgba(0, 0, 0, 0.45);
+      color: #d2cbc0;
+      font-family: var(--ui);
       font-size: 0.68rem;
+      font-weight: 500;
       letter-spacing: 0.04em;
+      line-height: 1;
+      box-sizing: border-box;
     }
 
     .controls {
       display: flex;
       gap: 0.45rem;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       justify-content: flex-end;
     }
 
@@ -529,8 +713,9 @@
       min-height: 44px;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
-      flex: 1 1 0;
-      max-width: 7.5rem;
+      flex: 0 0 auto;
+      min-width: 4.6rem;
+      color: var(--text);
     }
 
     .toast {
@@ -582,23 +767,27 @@
       footer.reader-footer {
         flex-direction: column-reverse;
         align-items: stretch;
+        gap: 0.85rem;
       }
 
-      .keys-desktop { display: none; }
-      .keys-mobile {
-        display: flex;
+      .keys {
         justify-content: center;
         width: 100%;
-        font-size: 0.72rem;
-        color: #6e6a62;
+        order: 2;
+      }
+
+      .key-hint-touch {
+        display: inline-flex;
       }
 
       .controls {
         width: 100%;
         justify-content: stretch;
+        order: 1;
       }
 
       footer.reader-footer button.ghost {
+        flex: 1 1 0;
         max-width: none;
       }
 
@@ -616,6 +805,19 @@
         transition: none !important;
       }
     }
+
+    @media (prefers-contrast: more) {
+      :root {
+        --muted: #bdb7ad;
+        --line: rgba(255, 255, 255, 0.22);
+      }
+
+      .home-card,
+      .stage {
+        background: #090909;
+        border: 1px solid #555;
+      }
+    }
   </style>
 </head>
 <body>
@@ -623,7 +825,11 @@
   <section id="home" class="view">
     <header>
       <button type="button" class="brand" id="homeBrand" aria-label="Home">
-        <div class="mark" aria-hidden="true">अ</div>
+        <div class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 3.25 3.5 10.7V21h6v-6.25h5V21h6V10.7L12 3.25Z" />
+          </svg>
+        </div>
         <span>Vijñāna Bhairava</span>
       </button>
       <button type="button" class="nav-link" id="openReaderTop">Open reader</button>
@@ -639,9 +845,10 @@
           alongside its meaning, so the verse can settle as both voice and sense.
         </p>
         <p class="home-body">
-          Use this beside your printed book: listen to each śloka, follow the Devanagari,
-          and keep the sense close at hand. Chanted audio will be wired in once rendering
-          is complete. See <a href="./NOTICE.md">NOTICE</a> for acknowledgments.
+          Listen to all 163 numbered verses, plus the separately transmitted breath-mantra
+          stanza 156-A. The English layer offers brief orientation rather than replacing a
+          critical translation or commentary. See <a href="./NOTICE.md">NOTICE</a> for
+          provenance and acknowledgments.
         </p>
         <div class="cta-row">
           <button type="button" class="solid" id="openReader">Begin reading</button>
@@ -654,6 +861,10 @@
             <li>
               Jaideva Singh — <em>Vijñānabhairava or Divine Consciousness</em>
               <span class="cite">Keep this book open as you listen; this site is a companion, not a replacement.</span>
+            </li>
+            <li>
+              <a href="https://tantra112.app/vijnana-bhairava-tantra" target="_blank" rel="noopener noreferrer">Tantra 112</a>
+              <span class="cite">Christopher Wallis’s translation and practice resource for deeper study.</span>
             </li>
             <li>
               <a href="https://github.com/prathoshap/vagdhenu" target="_blank" rel="noopener noreferrer">Vāgdhenu</a>
@@ -673,7 +884,11 @@
   <section id="reader" class="view" hidden>
     <header>
       <button type="button" class="brand" id="readerBrand" aria-label="Back to home">
-        <div class="mark" aria-hidden="true">अ</div>
+        <div class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 3.25 3.5 10.7V21h6v-6.25h5V21h6V10.7L12 3.25Z" />
+          </svg>
+        </div>
         <span>Vijñāna Bhairava</span>
       </button>
       <label class="counter" for="verseJump" title="Type a verse number and press Enter">
@@ -681,9 +896,9 @@
           class="counter-input"
           id="verseJump"
           type="text"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          maxlength="3"
+          inputmode="text"
+          pattern="[0-9Aa-]*"
+          maxlength="5"
           aria-label="Jump to verse number"
           autocomplete="off"
         />
@@ -692,7 +907,7 @@
     </header>
 
     <main class="reader-main">
-      <article class="stage" id="stage" aria-live="polite">
+      <article class="stage" id="stage" aria-live="polite" aria-atomic="false">
         <div class="meta" id="meta">Verse</div>
         <div class="deva" id="deva"></div>
         <div class="iast" id="iast"></div>
@@ -702,12 +917,18 @@
     </main>
 
     <footer class="reader-footer">
-      <div class="keys keys-desktop" aria-hidden="true">
-        <span><kbd>Space</kbd> play / pause</span>
-        <span><kbd>→</kbd><kbd>←</kbd> next / prev</span>
-      </div>
-      <div class="keys keys-mobile" aria-hidden="true">
-        <span>Swipe to change verse · Play keeps going</span>
+      <div class="keys" aria-hidden="true">
+        <div class="key-hint">
+          <kbd>Space</kbd>
+          <span class="key-label">play / pause</span>
+        </div>
+        <div class="key-hint">
+          <span class="kbd-group"><kbd>←</kbd><kbd>→</kbd></span>
+          <span class="key-label">prev / next</span>
+        </div>
+        <div class="key-hint key-hint-touch">
+          <span class="key-label">swipe changes verse</span>
+        </div>
       </div>
       <div class="controls">
         <button class="ghost" type="button" id="prevBtn">Prev</button>
@@ -718,7 +939,7 @@
   </section>
 
   <div class="toast" id="toast" role="status"></div>
-  <audio id="audio" preload="auto"></audio>
+  <audio id="audio" preload="metadata"></audio>
 
   <script>
     const state = {
@@ -728,6 +949,8 @@
       armed: false, // Space "on" — arrows keep autoplaying until Space pauses
       view: "home",
       loaded: false,
+      audioRequest: 0,
+      renderRequest: 0,
     };
 
     const els = {
@@ -772,6 +995,47 @@
       return state.verses[state.index];
     }
 
+    function verseLabel(verse) {
+      return String(verse.verse).toUpperCase();
+    }
+
+    function inputLabel(verse) {
+      const label = verseLabel(verse);
+      return /^\d+$/.test(label) ? label.padStart(3, "0") : label.replace("-", "");
+    }
+
+    function normalizeVerseKey(value) {
+      return String(value).trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
+    }
+
+    function numberedVerseTotal() {
+      return Math.max(...state.verses.map((verse) => parseInt(verse.verse, 10)).filter(Number.isFinite));
+    }
+
+    function savedVerseIndex() {
+      try {
+        const saved = localStorage.getItem("vbt:lastVerse");
+        const found = state.verses.findIndex((verse) => verse.id === saved);
+        return found >= 0 ? found : 0;
+      } catch (err) {
+        return 0;
+      }
+    }
+
+    const prefetchedAudio = new Set();
+
+    function prefetchNextAudio() {
+      if (!state.verses.length) return;
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType || ""))) return;
+      const next = state.verses[(state.index + 1) % state.verses.length];
+      if (!next || prefetchedAudio.has(next.audio)) return;
+      prefetchedAudio.add(next.audio);
+      fetch(next.audio, { cache: "force-cache", priority: "low" }).catch(() => {
+        prefetchedAudio.delete(next.audio);
+      });
+    }
+
     function setView(view, { replace = false } = {}) {
       state.view = view;
       els.home.hidden = view !== "home";
@@ -780,6 +1044,7 @@
       document.body.classList.toggle("is-reader", view === "reader");
 
       if (view === "home") {
+        state.audioRequest += 1;
         els.audio.pause();
         state.playing = false;
         state.armed = false;
@@ -798,13 +1063,15 @@
     function render(opts = {}) {
       const verse = current();
       if (!verse) return;
+      const requestId = ++state.renderRequest;
 
       const apply = () => {
+        if (requestId !== state.renderRequest) return;
         if (document.activeElement !== els.verseJump) {
-          els.verseJump.value = String(verse.verse).padStart(3, "0");
+          els.verseJump.value = inputLabel(verse);
         }
-        els.verseTotal.textContent = String(state.verses.length).padStart(3, "0");
-        els.meta.textContent = `Verse ${verse.verse}`;
+        els.verseTotal.textContent = String(numberedVerseTotal()).padStart(3, "0");
+        els.meta.textContent = `Verse ${verseLabel(verse)}`;
         els.deva.innerHTML = linesHtml(verse.padas);
         els.iast.innerHTML = linesHtml(verse.iast);
         els.english.textContent = verse.english || "";
@@ -812,7 +1079,7 @@
         els.english.hidden = !verse.english;
 
         if (verse.missing) {
-          els.status.textContent = "Audio not ready yet — still rendering.";
+          els.status.textContent = "Audio could not be loaded. Check your connection and try again.";
           els.status.className = "status warn";
         } else if (state.playing) {
           els.status.textContent = "Playing";
@@ -829,6 +1096,11 @@
         if (state.view === "reader") {
           const hash = `#${verse.id}`;
           if (location.hash !== hash) history.replaceState(null, "", hash);
+          try {
+            localStorage.setItem("vbt:lastVerse", verse.id);
+          } catch (err) {
+            // Storage can be unavailable in privacy modes; reading still works.
+          }
         }
       };
 
@@ -858,6 +1130,7 @@
     }
 
     async function loadAudio(verse, autoplay) {
+      const requestId = ++state.audioRequest;
       els.audio.pause();
       state.playing = false;
       els.stage.classList.remove("is-playing");
@@ -873,6 +1146,7 @@
       try {
         await waitForAudio(els.audio);
       } catch (err) {
+        if (requestId !== state.audioRequest) return;
         verse.missing = true;
         verse.ready = false;
         render();
@@ -880,8 +1154,10 @@
         return;
       }
 
+      if (requestId !== state.audioRequest || current() !== verse) return;
       verse.ready = true;
       verse.missing = false;
+      prefetchNextAudio();
 
       if (autoplay) {
         try {
@@ -907,15 +1183,18 @@
     }
 
     async function jumpToVerse(raw, { autoplay = false } = {}) {
-      const num = parseInt(String(raw).replace(/\D/g, ""), 10);
-      if (!Number.isFinite(num)) {
+      const key = normalizeVerseKey(raw);
+      if (!key) {
         showToast("Enter a verse number");
         render();
         return;
       }
-      const found = state.verses.findIndex((v) => v.verse === num);
+      const found = state.verses.findIndex((verse) => (
+        normalizeVerseKey(verse.verse) === key ||
+        normalizeVerseKey(verse.id.replace(/^vbt_/, "")) === key
+      ));
       if (found < 0) {
-        showToast(`No verse ${num}`);
+        showToast(`No verse ${String(raw).trim()}`);
         render();
         return;
       }
@@ -952,7 +1231,9 @@
     function indexFromHash() {
       const id = (location.hash || "").replace(/^#/, "");
       if (!id || id === "home" || id === "read") return id === "read" ? 0 : -1;
-      const found = state.verses.findIndex((v) => v.id === id || String(v.verse) === id);
+      const found = state.verses.findIndex((verse) => (
+        verse.id === id || normalizeVerseKey(verse.verse) === normalizeVerseKey(id)
+      ));
       return found >= 0 ? found : 0;
     }
 
@@ -964,7 +1245,7 @@
 
     async function ensureVerses() {
       if (state.loaded) return;
-      const res = await fetch("./verses.json", { cache: "no-store" });
+      const res = await fetch("./verses.json");
       if (!res.ok) throw new Error("Failed to load verses.json");
       state.verses = await res.json();
       state.loaded = true;
@@ -1002,8 +1283,14 @@
     els.nextBtn.addEventListener("click", () => goTo(state.index + 1, { autoplay: state.armed }));
     els.playBtn.addEventListener("click", () => togglePlay());
 
-    document.getElementById("openReader").addEventListener("click", () => openReader(0));
-    document.getElementById("openReaderTop").addEventListener("click", () => openReader(state.index || 0));
+    document.getElementById("openReader").addEventListener("click", async () => {
+      if (!state.loaded) await ensureVerses();
+      openReader(savedVerseIndex());
+    });
+    document.getElementById("openReaderTop").addEventListener("click", async () => {
+      if (!state.loaded) await ensureVerses();
+      openReader(savedVerseIndex());
+    });
     document.getElementById("homeBrand").addEventListener("click", () => setView("home"));
     document.getElementById("readerBrand").addEventListener("click", () => setView("home"));
 
@@ -1025,10 +1312,9 @@
         render();
         return;
       }
-      const num = parseInt(raw.replace(/\D/g, ""), 10);
       const verse = current();
-      if (verse && num === verse.verse) {
-        els.verseJump.value = String(verse.verse).padStart(3, "0");
+      if (verse && normalizeVerseKey(raw) === normalizeVerseKey(verse.verse)) {
+        els.verseJump.value = inputLabel(verse);
         return;
       }
       jumpToVerse(raw, { autoplay: state.armed });

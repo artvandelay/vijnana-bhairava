@@ -1,38 +1,50 @@
-# Acknowledgments & notices
+# Acknowledgments and notices
 
-This repository contains a **reading assistant** for the Vijñāna Bhairava Tantra.
-It does **not** include the Vāgdhenu TTS codebase, model weights, or training
-pipeline.
+This repository contains an independent reading companion for the classical
+*Vijñāna Bhairava Tantra*.
 
-## Book companion
+## Sanskrit and study notes
 
-**Jaideva Singh** — *Vijñānabhairava or Divine Consciousness*
+- **Devanagari** contains the classical Sanskrit verses.
+- **IAST** is an editorial transliteration for reading support.
+- **English** contains concise, independently written study notes. They are not
+  presented as a critical or line-by-line translation.
 
-Please use this site with the book in hand. The book remains the authoritative
-study text; this project only helps you hear and follow the ślokas.
+Published translations and commentaries remain indispensable. Recommended
+companions include:
 
-## Chant audio (when present)
+- Jaideva Singh, *Vijñānabhairava or Divine Consciousness*
+- Christopher Wallis, the
+  [Tantra 112 translation and practice resource](https://tantra112.app/vijnana-bhairava-tantra)
 
-Chanted audio is generated with **Vāgdhenu**, a meter-aware Sanskrit
-śloka-to-chant system by **Prof. Prathosh A. P.**, Indian Institute of Science,
-Bengaluru.
+No English translation from either publication is redistributed here.
 
-- Code & project: https://github.com/prathoshap/vagdhenu
-- Project page: https://prathosh.in/vagdhenu/
+## Chant audio
 
-Vāgdhenu is acknowledged with gratitude. This repo redistributes only the
-resulting study audio for the VBT reader, not their software.
+The recordings were generated with
+[Vāgdhenu](https://github.com/prathoshap/vagdhenu), a meter-aware Sanskrit
+chant TTS system developed by **Prof. Prathosh A. P.**, Indian Institute of
+Science, Bengaluru.
 
-## Text layers in `verses.json`
+- [Vāgdhenu project page](https://prathosh.in/vagdhenu/)
+- Vāgdhenu source code is licensed under Apache-2.0.
 
-- **Devanagari** — classical Vijñāna Bhairava verses
-- **IAST** — transliteration for reading support
-- **English** — study glosses aligned to the reader; for authoritative
-  translation and commentary, refer to Jaideva Singh’s book (and any other
-  editions you use)
+This repository contains only generated study audio. It does not redistribute
+the Vāgdhenu codebase, model weights, training data, or training pipeline.
+The recordings must not be used to impersonate the model’s source speaker.
 
-## What this project is not
+## Typefaces
 
-- Not an official Vāgdhenu release
-- Not a replacement for published translations or commentaries
-- Not a redistribution of another project’s source code
+The reader self-hosts **Gentium Plus** and **Noto Serif Devanagari**. Both are
+distributed under the SIL Open Font License 1.1; their license texts are
+included in `fonts/`.
+
+## Scope of the repository license
+
+The repository’s MIT License applies to the reader’s original HTML, CSS,
+JavaScript, and supporting scripts. It does not assert ownership over the
+classical Sanskrit text, third-party publications, Vāgdhenu, or its underlying
+models.
+
+This is not an official Vāgdhenu or Tantra 112 release, and it is not a
+replacement for published scholarship or instruction from a qualified teacher.
