@@ -1,0 +1,8 @@
+.DS_Store
+.venv/
+.env
+*.pyc
+__pycache__/
+
+# Audio arrives after render — keep folder, ignore unfinished local noise
+audio/.DS_Store

@@ -1,0 +1,2 @@
+# Audio files will be added after TTS render completes.
+# Run: bash scripts/import_audio.sh

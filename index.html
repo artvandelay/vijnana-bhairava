@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Vijñāna Bhairava Tantra</title>
+  <meta name="description" content="A reading assistant for the Vijñāna Bhairava Tantra: hear each śloka chanted, with meaning beside the text." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+Devanagari:wght@400;500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #000000;
+      --fg: #f5f5f5;
+      --muted: #8a8a8a;
+      --dim: #3a3a3a;
+      --line: #222;
+      --focus: #e8e4d8;
+      --link: #cfc9bc;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      height: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Outfit", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100dvh;
+      min-height: 100svh;
+    }
+
+    body.is-reader {
+      overflow: hidden;
+      height: 100dvh;
+      height: 100svh;
+    }
+
+    body.is-home {
+      overflow: auto;
+      overscroll-behavior-y: contain;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 35%, rgba(28, 26, 22, 0.55) 0%, transparent 65%),
+        linear-gradient(180deg, #050505 0%, #000 40%, #000 100%);
+      z-index: 0;
+    }
+
+    .view, header, footer, .toast {
+      position: relative;
+      z-index: 1;
+    }
+
+    .view[hidden] { display: none !important; }
+
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 0.18em;
+      text-decoration-thickness: 1px;
+    }
+
+    a:hover { color: #fff; }
+
+    /* —— shared chrome —— */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: calc(0.85rem + var(--safe-top)) calc(1.25rem + var(--safe-right)) 0.85rem calc(1.25rem + var(--safe-left));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--fg);
+      background: none;
+      border: 0;
+      padding: 0.35rem 0;
+      min-height: 44px;
+      cursor: pointer;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .brand:hover .mark {
+      border-color: #444;
+    }
+
+    .mark {
+      width: 1.55rem;
+      height: 1.55rem;
+      border-radius: 0.4rem;
+      border: 1px solid #2a2a2a;
+      background: #0c0c0c;
+      display: grid;
+      place-items: center;
+      font-family: "Noto Serif Devanagari", serif;
+      font-size: 0.85rem;
+      color: #d4cfc3;
+      box-shadow: 0 0 18px rgba(180, 190, 220, 0.12);
+      transition: border-color 0.15s ease;
+    }
+
+    .counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-input {
+      width: 3rem;
+      min-height: 44px;
+      border: 0;
+      border-bottom: 1px solid #444;
+      background: transparent;
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 16px; /* avoid iOS zoom on focus */
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.12em;
+      text-align: right;
+      padding: 0.35rem 0.2rem;
+      border-radius: 0;
+      outline: none;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    .counter-input::-webkit-outer-spin-button,
+    .counter-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .counter-input:hover,
+    .counter-input:focus {
+      border-bottom-color: #aaa;
+    }
+
+    .nav-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0.65rem 0.25rem;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-link:hover { color: var(--fg); }
+
+    /* —— home —— */
+    #home {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 100dvh;
+      min-height: 100svh;
+    }
+
+    .home-main {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding:
+        clamp(1.25rem, 4vw, 3rem)
+        calc(1.15rem + var(--safe-right))
+        calc(2rem + var(--safe-bottom))
+        calc(1.15rem + var(--safe-left));
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (min-height: 760px) and (min-width: 700px) {
+      .home-main { align-items: center; }
+    }
+
+    .home-card {
+      width: min(36rem, 100%);
+    }
+
+    .home-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 1.4rem;
+    }
+
+    .home-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5vw, 3.1rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.35rem;
+      color: #f2f0ea;
+    }
+
+    .home-deva {
+      font-family: "Noto Serif Devanagari", serif;
+      font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+      color: #9a958c;
+      margin: 0 0 1.75rem;
+    }
+
+    .home-lead {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+      line-height: 1.65;
+      color: #d8d4cb;
+      margin: 0 0 1.1rem;
+      max-width: 30em;
+    }
+
+    .home-body {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.12rem;
+      line-height: 1.65;
+      color: #9a958c;
+      margin: 0 0 2rem;
+      max-width: 32em;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    button.solid,
+    a.solid {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #f0ece3;
+      background: #f0ece3;
+      color: #111;
+      border-radius: 999px;
+      padding: 0.85rem 1.3rem;
+      min-height: 48px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    button.solid:hover,
+    a.solid:hover {
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+    }
+
+    button.ghost,
+    a.ghost {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #2c2c2c;
+      background: transparent;
+      color: #cfc9bc;
+      border-radius: 999px;
+      padding: 0.85rem 1.3rem;
+      min-height: 48px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    }
+
+    button.ghost:hover,
+    a.ghost:hover {
+      border-color: #555;
+      color: #fff;
+      background: #111;
+    }
+
+    button.ghost:focus-visible,
+    button.solid:focus-visible,
+    .counter-input:focus-visible,
+    .brand:focus-visible,
+    .nav-link:focus-visible {
+      outline: 1px solid #888;
+      outline-offset: 2px;
+    }
+
+    .refs {
+      border-top: 1px solid var(--line);
+      padding-top: 1.5rem;
+    }
+
+    .refs h2 {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 400;
+      margin: 0 0 0.9rem;
+    }
+
+    .refs ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .refs li {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      color: #bdb8ae;
+    }
+
+    .refs .cite {
+      display: block;
+      color: #7a756c;
+      font-size: 0.95rem;
+      margin-top: 0.15rem;
+    }
+
+    /* —— reader —— */
+    #reader {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      height: 100dvh;
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    main.reader-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding:
+        clamp(1rem, 3.5vw, 2.5rem)
+        calc(1.1rem + var(--safe-right))
+        clamp(1rem, 3.5vw, 2.5rem)
+        calc(1.1rem + var(--safe-left));
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+    }
+
+    .stage {
+      width: min(42rem, 100%);
+      margin: auto 0;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    .stage.is-leaving {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .stage.is-playing .deva {
+      color: var(--focus);
+      text-shadow: 0 0 40px rgba(232, 228, 216, 0.08);
+    }
+
+    .meta {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+    }
+
+    .deva {
+      font-family: "Noto Serif Devanagari", "Noto Serif", serif;
+      font-size: clamp(1.35rem, 4.2vw, 2.15rem);
+      font-weight: 500;
+      line-height: 1.75;
+      color: #f2f0ea;
+      margin: 0 0 1.35rem;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .deva p { margin: 0 0 0.35em; }
+    .deva p:last-child { margin-bottom: 0; }
+
+    .iast {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.05rem, 3.2vw, 1.45rem);
+      line-height: 1.55;
+      color: #9a958c;
+      margin: 0 0 1.5rem;
+      overflow-wrap: anywhere;
+    }
+
+    .iast p { margin: 0 0 0.2em; }
+
+    .english {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.02rem, 2.8vw, 1.25rem);
+      font-weight: 400;
+      line-height: 1.65;
+      color: #d8d4cb;
+      margin: 0;
+      max-width: 36em;
+    }
+
+    .status {
+      margin-top: 1.75rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      min-height: 1.2em;
+    }
+
+    .status.warn { color: #a89060; }
+
+    footer.reader-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      padding:
+        0.85rem
+        calc(1.15rem + var(--safe-right))
+        calc(0.95rem + var(--safe-bottom))
+        calc(1.15rem + var(--safe-left));
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    .keys {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.25rem;
+    }
+
+    .keys span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .keys-desktop { display: flex; }
+    .keys-mobile { display: none; }
+
+    kbd {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.55rem;
+      height: 1.45rem;
+      padding: 0 0.4rem;
+      border: 1px solid #333;
+      border-radius: 0.3rem;
+      background: #111;
+      color: #cfc9bc;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.45rem;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+    }
+
+    footer.reader-footer button.ghost {
+      padding: 0.7rem 0.95rem;
+      min-height: 44px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      flex: 1 1 0;
+      max-width: 7.5rem;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(5.5rem + var(--safe-bottom));
+      transform: translateX(-50%) translateY(8px);
+      max-width: calc(100vw - 2rem);
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      color: #d8d4cb;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 5;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 720px) {
+      .brand span { letter-spacing: 0.12em; }
+
+      .cta-row {
+        flex-direction: column;
+      }
+
+      .cta-row .solid,
+      .cta-row .ghost {
+        width: 100%;
+      }
+
+      .home-title {
+        font-size: clamp(1.9rem, 9vw, 2.5rem);
+      }
+
+      .home-lead,
+      .home-body {
+        max-width: none;
+      }
+
+      footer.reader-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      .keys-desktop { display: none; }
+      .keys-mobile {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        font-size: 0.72rem;
+        color: #6e6a62;
+      }
+
+      .controls {
+        width: 100%;
+        justify-content: stretch;
+      }
+
+      footer.reader-footer button.ghost {
+        max-width: none;
+      }
+
+      main.reader-main {
+        align-items: flex-start;
+      }
+
+      .stage {
+        padding-bottom: 0.5rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stage, .deva, .toast, button.ghost, button.solid, a.solid, a.ghost {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HOME -->
+  <section id="home" class="view">
+    <header>
+      <button type="button" class="brand" id="homeBrand" aria-label="Home">
+        <div class="mark" aria-hidden="true">अ</div>
+        <span>Vijñāna Bhairava</span>
+      </button>
+      <button type="button" class="nav-link" id="openReaderTop">Open reader</button>
+    </header>
+
+    <div class="home-main">
+      <div class="home-card">
+        <p class="home-kicker">Reading assistant</p>
+        <h1 class="home-title">Vijñāna Bhairava Tantra</h1>
+        <p class="home-deva">विज्ञान भैरव तन्त्र</p>
+        <p class="home-lead">
+          Meant as an assistant while you read the book — hear the sound of each śloka
+          alongside its meaning, so the verse can settle as both voice and sense.
+        </p>
+        <p class="home-body">
+          Use this beside your printed book: listen to each śloka, follow the Devanagari,
+          and keep the sense close at hand. Chanted audio will be wired in once rendering
+          is complete. See <a href="./NOTICE.md">NOTICE</a> for acknowledgments.
+        </p>
+        <div class="cta-row">
+          <button type="button" class="solid" id="openReader">Begin reading</button>
+          <a class="ghost" href="https://github.com/artvandelay/vijnana-bhairava" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+
+        <div class="refs">
+          <h2>Acknowledgments</h2>
+          <ul>
+            <li>
+              Jaideva Singh — <em>Vijñānabhairava or Divine Consciousness</em>
+              <span class="cite">Keep this book open as you listen; this site is a companion, not a replacement.</span>
+            </li>
+            <li>
+              <a href="https://github.com/prathoshap/vagdhenu" target="_blank" rel="noopener noreferrer">Vāgdhenu</a>
+              <span class="cite">Sanskrit chant TTS by Prof. Prathosh A. P., IISc Bengaluru — used to generate the audio.</span>
+            </li>
+            <li>
+              <a href="https://prathosh.in/vagdhenu/" target="_blank" rel="noopener noreferrer">Vāgdhenu project page</a>
+              <span class="cite">Background on the chant model.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- READER -->
+  <section id="reader" class="view" hidden>
+    <header>
+      <button type="button" class="brand" id="readerBrand" aria-label="Back to home">
+        <div class="mark" aria-hidden="true">अ</div>
+        <span>Vijñāna Bhairava</span>
+      </button>
+      <label class="counter" for="verseJump" title="Type a verse number and press Enter">
+        <input
+          class="counter-input"
+          id="verseJump"
+          type="text"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          maxlength="3"
+          aria-label="Jump to verse number"
+          autocomplete="off"
+        />
+        <span>/ <span id="verseTotal">—</span></span>
+      </label>
+    </header>
+
+    <main class="reader-main">
+      <article class="stage" id="stage" aria-live="polite">
+        <div class="meta" id="meta">Verse</div>
+        <div class="deva" id="deva"></div>
+        <div class="iast" id="iast"></div>
+        <p class="english" id="english"></p>
+        <div class="status" id="status"></div>
+      </article>
+    </main>
+
+    <footer class="reader-footer">
+      <div class="keys keys-desktop" aria-hidden="true">
+        <span><kbd>Space</kbd> play / pause</span>
+        <span><kbd>→</kbd><kbd>←</kbd> next / prev</span>
+      </div>
+      <div class="keys keys-mobile" aria-hidden="true">
+        <span>Swipe to change verse · Play keeps going</span>
+      </div>
+      <div class="controls">
+        <button class="ghost" type="button" id="prevBtn">Prev</button>
+        <button class="ghost" type="button" id="playBtn">Play</button>
+        <button class="ghost" type="button" id="nextBtn">Next</button>
+      </div>
+    </footer>
+  </section>
+
+  <div class="toast" id="toast" role="status"></div>
+  <audio id="audio" preload="auto"></audio>
+
+  <script>
+    const state = {
+      verses: [],
+      index: 0,
+      playing: false,
+      armed: false, // Space "on" — arrows keep autoplaying until Space pauses
+      view: "home",
+      loaded: false,
+    };
+
+    const els = {
+      home: document.getElementById("home"),
+      reader: document.getElementById("reader"),
+      stage: document.getElementById("stage"),
+      verseJump: document.getElementById("verseJump"),
+      verseTotal: document.getElementById("verseTotal"),
+      meta: document.getElementById("meta"),
+      deva: document.getElementById("deva"),
+      iast: document.getElementById("iast"),
+      english: document.getElementById("english"),
+      status: document.getElementById("status"),
+      audio: document.getElementById("audio"),
+      playBtn: document.getElementById("playBtn"),
+      prevBtn: document.getElementById("prevBtn"),
+      nextBtn: document.getElementById("nextBtn"),
+      toast: document.getElementById("toast"),
+    };
+
+    let toastTimer = null;
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => els.toast.classList.remove("show"), 1600);
+    }
+
+    function linesHtml(lines) {
+      return (lines || []).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function current() {
+      return state.verses[state.index];
+    }
+
+    function setView(view, { replace = false } = {}) {
+      state.view = view;
+      els.home.hidden = view !== "home";
+      els.reader.hidden = view !== "reader";
+      document.body.classList.toggle("is-home", view === "home");
+      document.body.classList.toggle("is-reader", view === "reader");
+
+      if (view === "home") {
+        els.audio.pause();
+        state.playing = false;
+        state.armed = false;
+        const url = location.pathname + location.search;
+        if (replace) history.replaceState(null, "", url);
+        else if (location.hash) history.pushState(null, "", url);
+        return;
+      }
+
+      const verse = current();
+      const hash = verse ? `#${verse.id}` : "#read";
+      if (replace) history.replaceState(null, "", hash);
+      else if (location.hash !== hash) history.pushState(null, "", hash);
+    }
+
+    function render(opts = {}) {
+      const verse = current();
+      if (!verse) return;
+
+      const apply = () => {
+        if (document.activeElement !== els.verseJump) {
+          els.verseJump.value = String(verse.verse).padStart(3, "0");
+        }
+        els.verseTotal.textContent = String(state.verses.length).padStart(3, "0");
+        els.meta.textContent = `Verse ${verse.verse}`;
+        els.deva.innerHTML = linesHtml(verse.padas);
+        els.iast.innerHTML = linesHtml(verse.iast);
+        els.english.textContent = verse.english || "";
+        els.iast.hidden = !(verse.iast && verse.iast.length);
+        els.english.hidden = !verse.english;
+
+        if (verse.missing) {
+          els.status.textContent = "Audio not ready yet — still rendering.";
+          els.status.className = "status warn";
+        } else if (state.playing) {
+          els.status.textContent = "Playing";
+          els.status.className = "status";
+        } else {
+          els.status.textContent = "";
+          els.status.className = "status";
+        }
+
+        els.playBtn.textContent = state.playing ? "Pause" : "Play";
+        els.stage.classList.toggle("is-playing", state.playing);
+        els.stage.classList.remove("is-leaving");
+
+        if (state.view === "reader") {
+          const hash = `#${verse.id}`;
+          if (location.hash !== hash) history.replaceState(null, "", hash);
+        }
+      };
+
+      if (opts.animate) {
+        els.stage.classList.add("is-leaving");
+        setTimeout(apply, 160);
+      } else {
+        apply();
+      }
+    }
+
+    function waitForAudio(audio) {
+      return new Promise((resolve, reject) => {
+        if (audio.readyState >= 2) {
+          resolve();
+          return;
+        }
+        const onReady = () => { cleanup(); resolve(); };
+        const onError = () => { cleanup(); reject(new Error("missing")); };
+        const cleanup = () => {
+          audio.removeEventListener("canplay", onReady);
+          audio.removeEventListener("error", onError);
+        };
+        audio.addEventListener("canplay", onReady, { once: true });
+        audio.addEventListener("error", onError, { once: true });
+      });
+    }
+
+    async function loadAudio(verse, autoplay) {
+      els.audio.pause();
+      state.playing = false;
+      els.stage.classList.remove("is-playing");
+      els.playBtn.textContent = "Play";
+      verse.missing = false;
+
+      const nextSrc = verse.audio;
+      if (els.audio.getAttribute("src") !== nextSrc) {
+        els.audio.src = nextSrc;
+        els.audio.load();
+      }
+
+      try {
+        await waitForAudio(els.audio);
+      } catch (err) {
+        verse.missing = true;
+        verse.ready = false;
+        render();
+        if (autoplay) showToast("Audio not ready for this verse");
+        return;
+      }
+
+      verse.ready = true;
+      verse.missing = false;
+
+      if (autoplay) {
+        try {
+          await els.audio.play();
+          state.playing = true;
+          render();
+        } catch (err) {
+          state.playing = false;
+          render();
+          showToast("Could not play audio");
+        }
+      } else {
+        render();
+      }
+    }
+
+    async function goTo(index, { autoplay = false, animate = true } = {}) {
+      if (!state.verses.length) return;
+      const next = ((index % state.verses.length) + state.verses.length) % state.verses.length;
+      state.index = next;
+      render({ animate });
+      await loadAudio(current(), autoplay);
+    }
+
+    async function jumpToVerse(raw, { autoplay = false } = {}) {
+      const num = parseInt(String(raw).replace(/\D/g, ""), 10);
+      if (!Number.isFinite(num)) {
+        showToast("Enter a verse number");
+        render();
+        return;
+      }
+      const found = state.verses.findIndex((v) => v.verse === num);
+      if (found < 0) {
+        showToast(`No verse ${num}`);
+        render();
+        return;
+      }
+      await goTo(found, { autoplay, animate: true });
+    }
+
+    async function togglePlay() {
+      const verse = current();
+      if (!verse) return;
+
+      if (!els.audio.src || verse.missing) {
+        state.armed = true;
+        await loadAudio(verse, true);
+        return;
+      }
+
+      if (els.audio.paused) {
+        try {
+          await els.audio.play();
+          state.playing = true;
+          state.armed = true;
+          render();
+        } catch (err) {
+          showToast("Could not play audio");
+        }
+      } else {
+        els.audio.pause();
+        state.playing = false;
+        state.armed = false;
+        render();
+      }
+    }
+
+    function indexFromHash() {
+      const id = (location.hash || "").replace(/^#/, "");
+      if (!id || id === "home" || id === "read") return id === "read" ? 0 : -1;
+      const found = state.verses.findIndex((v) => v.id === id || String(v.verse) === id);
+      return found >= 0 ? found : 0;
+    }
+
+    async function openReader(startIndex = 0) {
+      if (!state.loaded) await ensureVerses();
+      setView("reader");
+      await goTo(startIndex, { autoplay: false, animate: false });
+    }
+
+    async function ensureVerses() {
+      if (state.loaded) return;
+      const res = await fetch("./verses.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to load verses.json");
+      state.verses = await res.json();
+      state.loaded = true;
+    }
+
+    async function routeFromLocation({ replace = true } = {}) {
+      await ensureVerses();
+      const idx = indexFromHash();
+      if (idx < 0) {
+        setView("home", { replace });
+        return;
+      }
+      setView("reader", { replace });
+      await goTo(idx, { autoplay: false, animate: false });
+    }
+
+    els.audio.addEventListener("ended", () => {
+      state.playing = false;
+      // keep state.armed — Space is still "on"; → should autoplay next
+      render();
+    });
+    els.audio.addEventListener("play", () => {
+      state.playing = true;
+      state.armed = true;
+      render();
+    });
+    els.audio.addEventListener("pause", () => {
+      if (!els.audio.ended) {
+        state.playing = false;
+        render();
+      }
+    });
+
+    els.prevBtn.addEventListener("click", () => goTo(state.index - 1, { autoplay: state.armed }));
+    els.nextBtn.addEventListener("click", () => goTo(state.index + 1, { autoplay: state.armed }));
+    els.playBtn.addEventListener("click", () => togglePlay());
+
+    document.getElementById("openReader").addEventListener("click", () => openReader(0));
+    document.getElementById("openReaderTop").addEventListener("click", () => openReader(state.index || 0));
+    document.getElementById("homeBrand").addEventListener("click", () => setView("home"));
+    document.getElementById("readerBrand").addEventListener("click", () => setView("home"));
+
+    els.verseJump.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        jumpToVerse(els.verseJump.value, { autoplay: state.armed });
+        els.verseJump.blur();
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        render();
+        els.verseJump.blur();
+      }
+    });
+
+    els.verseJump.addEventListener("blur", () => {
+      const raw = els.verseJump.value.trim();
+      if (!raw) {
+        render();
+        return;
+      }
+      const num = parseInt(raw.replace(/\D/g, ""), 10);
+      const verse = current();
+      if (verse && num === verse.verse) {
+        els.verseJump.value = String(verse.verse).padStart(3, "0");
+        return;
+      }
+      jumpToVerse(raw, { autoplay: state.armed });
+    });
+
+    els.verseJump.addEventListener("focus", () => {
+      els.verseJump.select();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (state.view !== "reader") return;
+      const tag = (event.target && event.target.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+      if (event.code === "ArrowRight") {
+        event.preventDefault();
+        goTo(state.index + 1, { autoplay: state.armed });
+      } else if (event.code === "ArrowLeft") {
+        event.preventDefault();
+        goTo(state.index - 1, { autoplay: state.armed });
+      } else if (event.code === "Space") {
+        event.preventDefault();
+        togglePlay();
+      }
+    });
+
+    // Swipe: left = next, right = prev — keeps Space armed state
+    const swipe = { x: 0, y: 0, active: false };
+    const readerMain = document.querySelector("main.reader-main");
+
+    readerMain.addEventListener("touchstart", (event) => {
+      if (state.view !== "reader" || event.touches.length !== 1) return;
+      swipe.active = true;
+      swipe.x = event.touches[0].clientX;
+      swipe.y = event.touches[0].clientY;
+    }, { passive: true });
+
+    readerMain.addEventListener("touchend", (event) => {
+      if (!swipe.active || state.view !== "reader") return;
+      swipe.active = false;
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      const dx = touch.clientX - swipe.x;
+      const dy = touch.clientY - swipe.y;
+      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+
+      if (dx < 0) goTo(state.index + 1, { autoplay: state.armed });
+      else goTo(state.index - 1, { autoplay: state.armed });
+    }, { passive: true });
+
+    window.addEventListener("popstate", () => {
+      routeFromLocation({ replace: true }).catch((err) => showToast(String(err.message || err)));
+    });
+
+    document.body.classList.add("is-home");
+
+    routeFromLocation({ replace: true }).catch((err) => {
+      els.home.hidden = false;
+      els.reader.hidden = true;
+      document.body.classList.add("is-home");
+      document.body.classList.remove("is-reader");
+      showToast(String(err.message || err));
+    });
+  </script>
+</body>
+</html>
